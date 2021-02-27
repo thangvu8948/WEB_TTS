@@ -6,7 +6,7 @@ import { Homepage } from './components/homepage';
 function App() {
   return (
     <div className="App">
-      <MyNavBar/>
+      
       <Homepage/>
     </div>
   );
