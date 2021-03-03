@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { EvalAudio } from "./evalaudio";
 export const Mos = () => {
   const [data, setData] = useState(null);
+  const [email, setEmail] = useState("");
   const [rdiogr1, setRdiogr1] = useState(0);
   const [rdiogr2, setRdiogr2] = useState(0);
   const [score1, setScore1] = useState(0);
@@ -45,13 +46,45 @@ export const Mos = () => {
       }
     }
   };
-  const handleSubmitClick = () => {
-    if (rdiogr1 != 0 && rdiogr2 != 0) {
-      console.log(score1 + rdiogr1);
-      console.log(score2 + rdiogr2);
-      ////////////////////////////////
-      window.location.href = "/tks";
+  function validateEmail(e) {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
+  const handleSubmitClick = async () => {
+    if (!validateEmail(email)) {
+      alert("valid Email");
+    } else {
+      if (rdiogr1 != 0 && rdiogr2 != 0) {
+        console.log(score1 + rdiogr1);
+        console.log(score2 + rdiogr2);
+        ///post data
+        const response = await fetch(
+          // `http://localhost:3889/task`,
+          `https://tts-api-hcmus.herokuapp.com/task`,
+          {
+            method: "POST", // *GET, POST, PUT, DELETE, etc.
+            mode: "cors", // no-cors, *cors, same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+            headers: {
+              "Content-Type": "application/json",
+              // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: "follow", // manual, *follow, error
+            referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify({
+              email: email,
+              score1: ((score1 + rdiogr1) / data.length).toFixed(2),
+              score2: ((score2 + rdiogr2) / data.length).toFixed(2),
+            }), // body data type must match "Content-Type" header
+          }
+        );
+        window.location.href = "/tks";
+      }
     }
+  };
+  const handleChangeEmail = (e) => {
+    setEmail(e.target.value);
   };
   const hStyle = { color: "red" };
   return data == null ? (
@@ -59,8 +92,19 @@ export const Mos = () => {
   ) : (
     <>
       <div className="container">
+        <div className="input-group mb-3 col-6">
+          <div className="input-group-prepend">
+            <span className="input-group-text">Email</span>
+          </div>
+          <input
+            type="email"
+            className="form-control"
+            placeholder="Email"
+            onChange={handleChangeEmail}
+          />
+        </div>
         <p>Sentence:</p>
-        <h3 style={hStyle}>{data[current].sentence}</h3>
+        <h4 style={hStyle}>{data[current].sentence}</h4>
 
         <div className="row">
           <div className="col-6">

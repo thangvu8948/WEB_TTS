@@ -15,7 +15,7 @@ export const EvalAudio = (props) => {
               name="optradio"
               value="1"
             />
-            1
+            1-Bad
           </label>
         </div>
         <div className="form-check-inline">
@@ -26,7 +26,7 @@ export const EvalAudio = (props) => {
               name="optradio"
               value="2"
             />
-            2
+            2-Poor
           </label>
         </div>
         <div className="form-check-inline">
@@ -37,7 +37,7 @@ export const EvalAudio = (props) => {
               name="optradio"
               value="3"
             />
-            3
+            3-Fair
           </label>
         </div>
         <div className="form-check-inline">
@@ -48,7 +48,7 @@ export const EvalAudio = (props) => {
               name="optradio"
               value="4"
             />
-            4
+            4-Good
           </label>
         </div>
         <div className="form-check-inline">
@@ -59,7 +59,7 @@ export const EvalAudio = (props) => {
               name="optradio"
               value="5"
             />
-            5
+            5-Excellent
           </label>
         </div>
       </form>
