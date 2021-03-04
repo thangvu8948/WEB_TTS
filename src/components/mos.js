@@ -1,11 +1,26 @@
 import { useEffect, useState } from "react";
+import React from 'react'
 import { EvalAudio } from "./evalaudio";
+let score1 = 0;
+let score2 = 0;
 export const Mos = () => {
   const [email, setEmail] = useState("");
-  const [rdiogr1, setRdiogr1] = useState(0);
-  const [rdiogr2, setRdiogr2] = useState(0);
-  const [score1, setScore1] = useState(0);
-  const [score2, setScore2] = useState(0);
+  const [rdiogr1, setRdiogr1] = useState(-1);
+  const [rdiogr2, setRdiogr2] = useState(-1);
+  let eval1 = React.createRef();
+  let eval2 = React.createRef();
+  //const [score1, setScore1] = useState(0);
+  //const [score2, setScore2] = useState(0);
+  const [values1, setValues1] = useState([{ label: "1-Bad", checked: false },
+  { label: "2-Poor", checked: false },
+  { label: "3-Fair", checked: false },
+  { label: "4-Good", checked: false },
+  { label: "5-Excellent", checked: false }]);
+  const [values2, setValues2] = useState([{ label: "1-Bad", checked: false },
+  { label: "2-Poor", checked: false },
+  { label: "3-Fair", checked: false },
+  { label: "4-Good", checked: false },
+  { label: "5-Excellent", checked: false }]);
   const [current, setCurrent] = useState(0);
   let sentencesTacotron = [
     {'text': 'Tao nghĩ một đứa không dám leo xuống cầu thang sẽ không bao giờ dám nhảy qua vòng lửa.', 'name': 'e0bd1cb2-7cba-11eb-bd73-0242ac1c0002.wav', 'content': 'http://res.cloudinary.com/ducvyjutf/video/upload/v1614842764/gazwhaybrp7uetpw4yob.wav'},
@@ -46,15 +61,31 @@ export const Mos = () => {
     setRdiogr2(parseInt(e.target.value));
   };
 
+  const reset = () => {
+    let temp = [...values1];
+    temp.forEach((value, index) => {
+      value.checked = false;
+    })
+    setValues1(temp);
+    let temp2 = [...values2];
+    temp2.forEach((value, index) => {
+      value.checked = false;
+    })
+    setValues2(temp2);
+  }
+
+
   const handleNextClick = () => {
     if (current <= sentencesTacotron.length - 1) {
-      if (rdiogr1 != 0 && rdiogr2 != 0) {
-        setScore1(score1 + rdiogr1);
-        setScore2(score2 + rdiogr2);
+      if (rdiogr1 != -1 && rdiogr2 != -1) {
+        console.log("Score1: " + score1 + ", score2: " + score2);
+        score1 += rdiogr1 + 1;
+        score2 += rdiogr2 + 1;
         setCurrent(current + 1);
-        setRdiogr1(0);
-        setRdiogr2(0);
-        
+        setRdiogr1(-1);
+        setRdiogr2(-1);
+        reset();
+        console.log("Score1: " + score1 + ", score2: " + score2);
       } else {
         alert("Vui lòng đánh giá");
       }
@@ -117,7 +148,7 @@ export const Mos = () => {
   ) : (
       <>
         <div className="container">
-          <div className="input-group md-12 mt-5" style={{ maxWidth: "60%" }}>
+          <div className="input-group md-12 mt-5" >
             <div className="input-group-prepend">
               <span className="input-group-text">Họ và tên</span>
             </div>
@@ -128,7 +159,7 @@ export const Mos = () => {
               onChange={handleChangeName}
             />
           </div>
-          <div className="input-group md-12 mt-2" style={{ maxWidth: "60%" }}>
+          <div className="input-group md-12 mt-2">
             <div className="input-group-prepend">
               <span className="input-group-text">Email</span>
             </div>
@@ -144,7 +175,7 @@ export const Mos = () => {
 
           <div className="row">
             <div className="col-md-6 col-sm-12">
-              <EvalAudio
+              <EvalAudio values={values1}
                 onScore={onScore1}
                 modelName="Mô hình 1"
                 link={sentencesFastSpeech2[current].content}
@@ -154,7 +185,7 @@ export const Mos = () => {
               ></EvalAudio>
             </div>
             <div className="col-md-6 col-sm-12">
-              <EvalAudio
+              <EvalAudio  values={values2}
                 onScore={onScore2}
                 modelName="Mô hình 2"
                 link={sentencesTacotron[current].content}
