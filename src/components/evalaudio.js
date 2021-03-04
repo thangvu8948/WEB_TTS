@@ -3,7 +3,7 @@ export const EvalAudio = (props) => {
   return (
     <>
       <p>{props.modelName}</p>
-      <div className="col-9 col-sm-offset-9 embed-responsive ">
+      <div className="col-md-12 col-sm-12 embed-responsive ">
         <audio controls src={props.link}></audio>
       </div>
       <form onChange={props.onScore}>
