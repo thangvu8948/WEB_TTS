@@ -52,6 +52,9 @@ export const Mos = () => {
         setScore1(score1 + rdiogr1);
         setScore2(score2 + rdiogr2);
         setCurrent(current + 1);
+        setRdiogr1(0);
+        setRdiogr2(0);
+        
       } else {
         alert("Vui lòng đánh giá");
       }
