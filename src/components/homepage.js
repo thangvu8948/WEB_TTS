@@ -132,6 +132,7 @@ export const Homepage = () => {
                     ></textarea>
                   </div>
                 </form>
+                <div >
                 <button
                   type="button"
                   className="btn btn-primary"
@@ -144,7 +145,7 @@ export const Homepage = () => {
                 </div></span>
               </button>
 
-                <div className="col-sm-4 col-sm-offset-4 embed-responsive embed-responsive-4by3">
+                <div className="mt-3">
                   <audio
                     controls
                     hidden={data == null}
@@ -153,6 +154,7 @@ export const Homepage = () => {
                     {/* <source src={data} type="audio/wav">
               </source> */}
                   </audio>
+                </div>
                 </div>
               </div>
             )}
