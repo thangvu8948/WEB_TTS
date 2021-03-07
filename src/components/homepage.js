@@ -89,6 +89,7 @@ export const Homepage = () => {
       {
         <div className="container" style={{ marginTop: "3rem" }}>
 
+          <h1>DEMO MÔ HÌNH TỔNG HỢP ÂM THANH TIẾNG VIỆT</h1>
           {!loaded ? (
               <div class="text-center">
               <div class="spinner-border" role="status">
@@ -104,7 +105,7 @@ export const Homepage = () => {
                   type="button"
                   className="btn btn-primary"
                   onClick={handleMOSclick}
-                >MOS EVAL</button>
+                >Chế độ đánh giá MOS</button>
                 <form>
                   <div onChange={onChangeModel}>
                     <input
@@ -127,7 +128,7 @@ export const Homepage = () => {
                     <textarea
                       className="form-control"
                       id="exampleFormControlTextarea1"
-                      rows="3"
+                      rows="6"
                       onChange={handleTextChange}
                     ></textarea>
                   </div>
