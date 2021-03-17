@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Modal, Spinner } from 'react-bootstrap';
+import { Button, Modal, Spinner } from "react-bootstrap";
 export const Homepage = () => {
   const [data, setData] = useState(null);
   const [text, setText] = useState("");
@@ -7,6 +7,7 @@ export const Homepage = () => {
   const [urlTacotron, setUrlTacotron] = useState("");
   const [loaded, setLoaded] = useState(false);
   const [model, setModel] = useState("Fastspeech2");
+  const [inferenceTime, setInferenceTime] = useState(0);
   const [isSynthesizing, setIsSynthesizing] = useState(false);
   const handleTextChange = (e) => {
     setText(e.target.value);
@@ -35,6 +36,8 @@ export const Homepage = () => {
     }
   }, []);
   const getAudio = async () => {
+    setInferenceTime(0);
+    const start = new Date().getTime();
     const value = text.trim();
     if (value == "") return;
     setIsSynthesizing(true);
@@ -61,7 +64,7 @@ export const Homepage = () => {
       console.log(res.status);
       if (res.status >= 400) {
         setIsSynthesizing(false);
-        alert("Server đang bảo trì.")
+        alert("Server đang bảo trì.");
         return;
       }
       res.json().then((res) => {
@@ -69,12 +72,14 @@ export const Homepage = () => {
         setData(res.content);
         console.log(res.content);
       });
-      setIsSynthesizing(false)
-
+      setIsSynthesizing(false);
     } else {
       console.log("no data");
       setIsSynthesizing(false);
     }
+    const end = new Date().getTime();
+    const time = end - start;
+    setInferenceTime(time);
   };
 
   const onChangeModel = (e) => {
@@ -88,52 +93,51 @@ export const Homepage = () => {
     <>
       {
         <div className="container" style={{ marginTop: "3rem" }}>
-
           <h1>DEMO MÔ HÌNH TỔNG HỢP ÂM THANH TIẾNG VIỆT</h1>
+          <button
+            type="button"
+            className="btn btn-secondary float-right"
+            onClick={handleMOSclick}
+          >
+            Chế độ đánh giá MOS
+          </button>
+          <br />
           {!loaded ? (
-              <div class="text-center">
+            <div class="text-center">
               <div class="spinner-border" role="status">
                 <span class="sr-only">Loading...</span>
               </div>
             </div>
-
-         
           ) : (
-              <div className="col">
-                <button
-                  className="mr-2"
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={handleMOSclick}
-                >Chế độ đánh giá MOS</button>
-                <form>
-                  <div onChange={onChangeModel}>
-                    <input
-                      type="radio"
-                      value="Fastspeech2"
-                      name="model"
-                      checked={model === "Fastspeech2"}
-                    />{" "}
-                    <label className="mr-2">Fastspeech 2</label>
-                    <input
-                      type="radio"
-                      value="Tacotron2"
-                      name="model"
-                      checked={model === "Tacotron2"}
-                    />{" "}
+            <div className="col">
+              <form>
+                <div className="form-group">
+                  <label for="exampleFormControlTextarea1">Đoạn văn bản</label>
+                  <textarea
+                    className="form-control"
+                    id="exampleFormControlTextarea1"
+                    rows="6"
+                    onChange={handleTextChange}
+                  ></textarea>
+                </div>
+                <div onChange={onChangeModel}>
+                  <input
+                    type="radio"
+                    value="Fastspeech2"
+                    name="model"
+                    checked={model === "Fastspeech2"}
+                  />{" "}
+                  <label className="mr-2">Fastspeech 2</label>
+                  <input
+                    type="radio"
+                    value="Tacotron2"
+                    name="model"
+                    checked={model === "Tacotron2"}
+                  />{" "}
                   Tacotron 2
                 </div>
-                  <div className="form-group">
-                    <label for="exampleFormControlTextarea1">Đoạn văn bản</label>
-                    <textarea
-                      className="form-control"
-                      id="exampleFormControlTextarea1"
-                      rows="6"
-                      onChange={handleTextChange}
-                    ></textarea>
-                  </div>
-                </form>
-                <div >
+              </form>
+              <div>
                 <button
                   type="button"
                   className="btn btn-primary"
@@ -141,24 +145,32 @@ export const Homepage = () => {
                   disabled={isSynthesizing}
                 >
                   Tạo âm thanh
-                  <span hidden={!isSynthesizing}><div class="mx-1 spinner-border text-light spinner-grow-sm" role="status">
-                    <span class="sr-only">Loading...</span>
-                </div></span>
-              </button>
+                  <span hidden={!isSynthesizing}>
+                    <div
+                      class="mx-1 spinner-border text-light spinner-grow-sm"
+                      role="status"
+                    >
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </span>
+                </button>
 
                 <div className="mt-3">
+                  <p hidden={inferenceTime == 0}>
+                    Thời gian suy luận: {inferenceTime / 1000} giây
+                  </p>
                   <audio
                     controls
                     hidden={data == null}
-                  /*src={`data:audio/wav;base64,${data}`}*/ src={data}
+                    /*src={`data:audio/wav;base64,${data}`}*/ src={data}
                   >
                     {/* <source src={data} type="audio/wav">
               </source> */}
                   </audio>
                 </div>
-                </div>
               </div>
-            )}
+            </div>
+          )}
         </div>
       }
     </>
