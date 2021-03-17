@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Button, Modal, Spinner } from "react-bootstrap";
-export const Homepage = () => {
-  const [data, setData] = useState(null);
+import "../assets/homepage.css"
+import logo from "../images/logo_hcmus.png";
+export const NewHomepage = () => {
+  const [data, setData] = useState("https://res.cloudinary.com/ducvyjutf/video/upload/v1616003358/ct5hg9vbzpeyigylclwg.wav");
   const [text, setText] = useState("");
   const [urlFastspeech, setUrlFastspeech] = useState("");
   const [urlTacotron, setUrlTacotron] = useState("");
@@ -92,29 +93,27 @@ export const Homepage = () => {
   return (
     <>
       {
-        <div className="container" style={{ marginTop: "3rem" }}>
-          <h1>DEMO MÔ HÌNH TỔNG HỢP ÂM THANH TIẾNG VIỆT</h1>
-          
-          <br />
-          {!loaded ? (
-            <div class="text-center">
-              <div class="spinner-border" role="status">
-                <span class="sr-only">Loading...</span>
-              </div>
-            </div>
-          ) : (
-            <div className="col">
-              <form>
-                <div className="form-group">
-                  <label for="exampleFormControlTextarea1">Đoạn văn bản</label>
-                  <textarea
-                    className="form-control"
-                    id="exampleFormControlTextarea1"
-                    rows="6"
-                    onChange={handleTextChange}
-                  ></textarea>
-                </div>
+        <div className="container" style={{ marginTop: "3rem"}} >
+            
+            <div className="row">
                 
+                <div className="col-lg-6 col-sm-12" style={{display:"flex"}}>
+                  <div style={{textAlign:"center"}}>
+                <div className="logo"/>
+
+                  <h1 style={{maxWidth:"20ch"}}>WEBSITE DEMO </h1>
+                  <h1>MÔ HÌNH TỔNG HỢP</h1>
+                  <h1>ÂM THANH TIẾNG VIỆT</h1>
+
+                  {/* <h2>ALo </h2> */}
+                  </div>
+                </div>
+                <div className="col-lg-6 col-sm-12" >
+                    <div className="right-card">
+ 
+                    <form>
+                    <label for="exampleFormControlTextarea1">Lựa chọn mô hình</label>
+                <div className="form-group">
                 <div onChange={onChangeModel}>
                   <input
                     type="radio"
@@ -131,11 +130,20 @@ export const Homepage = () => {
                   />{" "}
                   Tacotron 2
                 </div>
+                  <label for="exampleFormControlTextarea1">Đoạn văn bản</label>
+                  <textarea
+                    className="form-control"
+                    id="exampleFormControlTextarea1"
+                    rows="6"
+                    onChange={handleTextChange}
+                  ></textarea>
+                </div>
+                
               </form>
               <div>
                 <button
                   type="button"
-                  className="btn btn-primary"
+                  className="customBtn"
                   onClick={getAudio}
                   disabled={isSynthesizing}
                 >
@@ -151,9 +159,8 @@ export const Homepage = () => {
                 </button>
 
                 <div className="mt-3">
-                  <p>
-                    Thời gian suy luận: {inferenceTime / 1000} giây
-                  </p>
+
+
                   <audio
                     controls
                     
@@ -162,11 +169,16 @@ export const Homepage = () => {
                     {/* <source src={data} type="audio/wav">
               </source> */}
                   </audio>
+                  <div style={{visibility:`${ inferenceTime == 0 ? "hidden" : ""}`}} class="alert alert-success" role="alert">
+                Thời gian suy luận: {inferenceTime / 1000} giây
                 </div>
+                </div>
+                    </div>
+
               </div>
+                </div>
             </div>
-          )}
-        </div>
+         </div>
       }
     </>
   );

@@ -1,0 +1,53 @@
+.right-card {
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+  transition: 0.3s;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .right-card {
+    margin-top: 2rem;
+    width: 100%;
+  }
+}
+
+.customBtn {
+  display: inline-block;
+  padding: 0.7em 1.7em;
+  margin: 0 0.3em 0.3em 0;
+  border-radius: 0.2em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  color: #ffffff;
+  background-color: #3369ff;
+  box-shadow: inset 0 -0.6em 1em -0.35em rgba(0, 0, 0, 0.17),
+    inset 0 0.6em 2em -0.3em rgba(255, 255, 255, 0.15),
+    inset 0 0 0em 0.05em rgba(255, 255, 255, 0.12);
+  text-align: center;
+  position: relative;
+}
+
+.logo {
+  background-image: url("../images/logo_hcmus.png");
+  width: auto;
+  height: 160px;
+  background-size: 90%;
+  background-repeat: no-repeat;
+  display: block;
+
+  width: 100%;
+}
+
+h1 {
+  font-size: 50px;
+  
+  background: -webkit-linear-gradient(rgb(57, 83, 230), rgb(85, 185, 135));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
